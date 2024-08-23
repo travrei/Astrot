@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://tuuwiwnlef6"]
+
+[ext_resource type="SpriteFrames" uid="uid://d0p7tabgd1oxt" path="res://resources/SpritesFrames/PlayerShip.tres" id="1_5cb3q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7cngn"]
+size = Vector2(12, 13)
+
+[node name="PlayerShip" type="PlayerShip"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_5cb3q")
+animation = &"level_1"
+autoplay = "level_1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_7cngn")

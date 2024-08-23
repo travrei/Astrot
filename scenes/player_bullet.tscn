@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://chuneswqpwykh"]
+
+[ext_resource type="Texture2D" uid="uid://ck0ondwx5j4iv" path="res://assets/Bullet.png" id="1_bvrke"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abuiv"]
+size = Vector2(4, 6.5)
+
+[node name="PlayerBullet" type="PlayerBullet"]
+
+[node name="Bullet" type="Sprite2D" parent="."]
+texture = ExtResource("1_bvrke")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.25)
+shape = SubResource("RectangleShape2D_abuiv")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 2.38419e-07)
+scale = Vector2(0.3, 0.4)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
