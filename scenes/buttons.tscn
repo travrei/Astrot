@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://pd0ild2r2hgt"]
+
+[ext_resource type="SpriteFrames" uid="uid://ds2lfpkk2pdei" path="res://resources/SpritesFrames/button_family.tres" id="1_7qx2l"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uyda0"]
+size = Vector2(8, 8)
+
+[node name="Buttons" type="Buttons"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("1_7qx2l")
+animation = &"b1"
+autoplay = "b1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_uyda0")

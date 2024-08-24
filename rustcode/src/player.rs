@@ -1,5 +1,5 @@
 use godot::{
-    classes::{Area2D, CharacterBody2D, ICharacterBody2D},
+    classes::{Area2D, CharacterBody2D, ICharacterBody2D, Timer},
     obj::WithBaseField,
     prelude::*,
 };

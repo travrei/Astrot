@@ -15,3 +15,8 @@ autoplay = "level_1"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_7cngn")
+
+[node name="shoot_timer" type="Timer" parent="."]
+wait_time = 0.2
+
+[connection signal="timeout" from="shoot_timer" to="." method="_on_shoot_timer_timeout"]
