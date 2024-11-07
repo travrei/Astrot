@@ -1,0 +1,9 @@
+# Godot 4+ specific ignores
+.godot/
+/rustcode/Cargo.lock
+/rustcode/target/
+/android/
+
+##Files Extensions
+*.import
+*.ase
