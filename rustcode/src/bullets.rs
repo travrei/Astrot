@@ -33,4 +33,9 @@ impl PlayerBullet {
     fn on_area_entered(&mut self, _area: Gd<Area2D>) {
         self.base_mut().queue_free();
     }
+
+    #[func]
+    fn on_exit_screen(&mut self) {
+        self.base_mut().queue_free();
+    }
 }

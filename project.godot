@@ -19,9 +19,9 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=240
 window/size/viewport_height=427
+window/size/mode=2
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_width"
-window/stretch/scale_mode="integer"
 window/handheld/orientation=1
 
 [importer_defaults]
@@ -68,6 +68,7 @@ Shoot={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Inimigos"
 2d_physics/layer_3="Bullets"
+2d_physics/layer_4="Modulos"
 
 [rendering]
 

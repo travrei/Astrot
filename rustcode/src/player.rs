@@ -5,7 +5,7 @@ use godot::{
 
 #[derive(GodotClass)]
 #[class(base=CharacterBody2D)]
-struct Player {
+pub struct Player {
     #[export]
     speed: f32,
     #[export]
@@ -47,22 +47,35 @@ impl ICharacterBody2D for Player {
 
         self.moviment(delta);
         self.set_player_level();
-
+        self.check_points();
         if input.is_action_just_pressed("Shoot") {
             self.shoot();
         }
+        godot_print!("{}", self.points)
     }
 }
 
 #[godot_api]
 impl Player {
     #[func]
+    fn check_points(&mut self) {
+        match self.points {
+            5.. => self.level = Level::Final,
+            3..=4 => self.level = Level::Second,
+            1..=2 => {
+                godot_print!("Quaselá!")
+            }
+            _ => {}
+        }
+    }
+
+    #[func]
     fn shoot(&mut self) {
-        let spawn_point = self.shoot_point.get_position();
+        let spawn_point = self.shoot_point.get_global_position();
         let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
 
         bullet.set_position(spawn_point);
-        self.base_mut().add_child(bullet);
+        self.base_mut().get_parent().unwrap().add_child(bullet);
     }
 
     #[func]
@@ -85,6 +98,10 @@ impl Player {
 
         dir.x = input.get_axis("Left", "Right");
         dir.y = input.get_axis("Up", "Down");
+
+        if dir != Vector2::ZERO {
+            dir.normalized();
+        }
 
         let vel = dir * self.speed * delta as f32;
 

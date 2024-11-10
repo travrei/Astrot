@@ -3,12 +3,12 @@
 [ext_resource type="Texture2D" uid="uid://bpl48yby0uaqq" path="res://assets/Player/Bullet.png" id="1_wn16j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mlnrl"]
-size = Vector2(2.0625, 5.6875)
+size = Vector2(2, 5)
 
 [node name="PlayerBullet" type="PlayerBullet"]
-speed = 1000.0
+speed = 600.0
 collision_layer = 4
-collision_mask = 2
+collision_mask = 10
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_wn16j")
@@ -17,4 +17,9 @@ texture = ExtResource("1_wn16j")
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_mlnrl")
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(0.2, 0.3)
+
 [connection signal="area_entered" from="." to="." method="on_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="on_exit_screen"]
