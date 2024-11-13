@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://dei0m8am60eak"]
+
+[ext_resource type="Texture2D" uid="uid://ckeqigvhcwviq" path="res://assets/Player/Bulletlast.png" id="1_lr421"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v0mno"]
+size = Vector2(10, 8)
+
+[node name="PlayerBulletLV3" type="PlayerBulletLV3"]
+speed = 600.0
+collision_layer = 4
+collision_mask = 10
+
+[node name="Bulletlast" type="Sprite2D" parent="."]
+position = Vector2(-4, 0)
+texture = ExtResource("1_lr421")
+
+[node name="Bulletlast2" type="Sprite2D" parent="."]
+position = Vector2(4, 0)
+texture = ExtResource("1_lr421")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 2.38419e-07)
+scale = Vector2(0.6, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v0mno")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="on_exit_screen"]

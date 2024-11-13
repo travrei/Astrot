@@ -6,7 +6,10 @@ struct Astrot;
 unsafe impl ExtensionLibrary for Astrot {}
 
 //Modules
+mod assistent;
 mod bullets;
+mod degub;
 mod enemys;
 mod modules;
 mod player;
+mod upgrade;

@@ -3,6 +3,8 @@ use godot::{
     prelude::*,
 };
 
+use crate::assistent::Assistent;
+
 #[derive(GodotClass)]
 #[class(base=CharacterBody2D)]
 pub struct Player {
@@ -17,13 +19,16 @@ pub struct Player {
     shoot_point: Gd<Marker2D>,
     #[export]
     bullet_scene: Gd<PackedScene>,
+    #[var]
+    num_assistent: i8,
+    assistents_spawned: i8,
 
     base: Base<CharacterBody2D>,
 }
 
 #[derive(GodotConvert, Var, Export)]
 #[godot(via = GString)]
-enum Level {
+pub enum Level {
     First,
     Second,
     Final,
@@ -36,6 +41,8 @@ impl ICharacterBody2D for Player {
             speed: 0.,
             points: 0,
             level: Level::First,
+            num_assistent: 0,
+            assistents_spawned: 0,
             shoot_point: Marker2D::new_alloc(),
             bullet_scene: PackedScene::new_gd(),
             base,
@@ -51,31 +58,57 @@ impl ICharacterBody2D for Player {
         if input.is_action_just_pressed("Shoot") {
             self.shoot();
         }
-        godot_print!("{}", self.points)
+        //godot_print!("{}", self.points)
     }
 }
 
 #[godot_api]
 impl Player {
     #[func]
+    fn spawn_assistent(&mut self) {
+        let assistent_scene: Gd<PackedScene> = load("res://scenes/player/assistent.tscn");
+        let mut assistent = assistent_scene.instantiate_as::<Assistent>();
+
+        let distance = assistent.bind().get_dist() * self.num_assistent as f32;
+
+        assistent.bind_mut().set_dist(distance);
+        self.base_mut().get_parent().unwrap().add_child(assistent);
+    }
+
+    #[func]
     fn check_points(&mut self) {
         match self.points {
-            5.. => self.level = Level::Final,
-            3..=4 => self.level = Level::Second,
-            1..=2 => {
-                godot_print!("Quaselá!")
-            }
             _ => {}
         }
     }
 
     #[func]
     fn shoot(&mut self) {
-        let spawn_point = self.shoot_point.get_global_position();
-        let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
+        match self.level {
+            Level::First => {
+                let spawn_point = self.shoot_point.get_global_position();
+                let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
 
-        bullet.set_position(spawn_point);
-        self.base_mut().get_parent().unwrap().add_child(bullet);
+                bullet.set_position(spawn_point);
+                self.base_mut().get_parent().unwrap().add_child(bullet);
+            }
+            Level::Second => {
+                let spawn_point = self.shoot_point.get_global_position();
+                self.bullet_scene = load("res://scenes/player/player_bullet_lv_2.tscn");
+                let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
+
+                bullet.set_position(spawn_point);
+                self.base_mut().get_parent().unwrap().add_child(bullet);
+            }
+            Level::Final => {
+                let spawn_point = self.shoot_point.get_global_position();
+                self.bullet_scene = load("res://scenes/player/player_bullet_lv_3.tscn");
+                let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
+
+                bullet.set_position(spawn_point);
+                self.base_mut().get_parent().unwrap().add_child(bullet);
+            }
+        }
     }
 
     #[func]

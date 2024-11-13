@@ -1,5 +1,5 @@
 use godot::{
-    classes::{AnimatedSprite2D, Area2D, CharacterBody2D, IPathFollow2D, PathFollow2D},
+    classes::{AnimatedSprite2D, Area2D, IPathFollow2D, PathFollow2D},
     prelude::*,
 };
 

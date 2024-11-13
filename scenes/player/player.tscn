@@ -201,8 +201,9 @@ shape = SubResource("RectangleShape2D_c734u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fi5sk")
-animation = &"lv1"
+animation = &"lv3"
 autoplay = "lv1"
+frame_progress = 0.48676
 
 [node name="ShootPoint" type="Marker2D" parent="."]
 position = Vector2(0, -7)

@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://ddl60tbg5mat3"]
+
+[ext_resource type="Texture2D" uid="uid://bqv22x3d5d4rs" path="res://assets/Player/aid.png" id="1_cu7c8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wjsm"]
+atlas = ExtResource("1_cu7c8")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_42bp5"]
+atlas = ExtResource("1_cu7c8")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vsb4"]
+atlas = ExtResource("1_cu7c8")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7gd2"]
+atlas = ExtResource("1_cu7c8")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sv2jv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wjsm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_42bp5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vsb4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7gd2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Assistent" type="Assistent" node_paths=PackedStringArray("shoot_point")]
+speed = 4000.0
+shoot_point = NodePath("shoot_point")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_sv2jv")
+autoplay = "default"
+
+[node name="shoot_point" type="Marker2D" parent="."]

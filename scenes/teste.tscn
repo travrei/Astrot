@@ -88,3 +88,9 @@ position = Vector2(120, 184)
 
 [node name="Modules4" parent="." instance=ExtResource("4_jiktb")]
 position = Vector2(88, 168)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayerPoints" type="PlayerPoints" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
