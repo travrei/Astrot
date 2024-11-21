@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Astrot"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-boot_splash/image="res://Icon.png"
+boot_splash/image="res://icon.png"
 config/icon="res://icon.svg"
 
 [display]
@@ -69,6 +69,7 @@ Shoot={
 2d_physics/layer_2="Inimigos"
 2d_physics/layer_3="Bullets"
 2d_physics/layer_4="Modulos"
+2d_physics/layer_5="Env"
 
 [rendering]
 
@@ -76,4 +77,5 @@ textures/canvas_textures/default_texture_filter=0
 textures/canvas_textures/default_texture_repeat=1
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 2d/snap/snap_2d_transforms_to_pixel=true

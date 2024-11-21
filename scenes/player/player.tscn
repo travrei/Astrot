@@ -189,10 +189,11 @@ animations = [{
 "speed": 20.0
 }]
 
-[node name="Player" type="Player" node_paths=PackedStringArray("shoot_point")]
+[node name="Player" type="Player" node_paths=PackedStringArray("shoot_point", "firerate")]
 speed = 4000.0
 shoot_point = NodePath("ShootPoint")
 bullet_scene = ExtResource("1_yuo68")
+firerate = NodePath("firerate")
 
 [node name="hit_area" type="Area2D" parent="."]
 
@@ -207,3 +208,7 @@ frame_progress = 0.48676
 
 [node name="ShootPoint" type="Marker2D" parent="."]
 position = Vector2(0, -7)
+
+[node name="firerate" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true

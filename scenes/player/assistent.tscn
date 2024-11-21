@@ -41,6 +41,7 @@ animations = [{
 [node name="Assistent" type="Assistent" node_paths=PackedStringArray("shoot_point")]
 speed = 4000.0
 shoot_point = NodePath("shoot_point")
+position = Vector2(64, 399)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_sv2jv")

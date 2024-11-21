@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://iu314q7b6a3m"]
+
+[ext_resource type="Texture2D" uid="uid://t3tmotg0jy77" path="res://assets/star.png" id="1_rady2"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pgukn"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -10, 0)
+emission_shape_scale = Vector3(240, 0, 1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+flatness = 1.0
+initial_velocity_min = 98.0
+initial_velocity_max = 98.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 2.0
+hue_variation_min = -2.23517e-08
+hue_variation_max = 1.0
+
+[node name="stars" type="GPUParticles2D"]
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_pgukn")
+texture = ExtResource("1_rady2")
+lifetime = 5.0
+fixed_fps = 60

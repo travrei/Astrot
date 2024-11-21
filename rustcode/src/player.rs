@@ -1,5 +1,5 @@
 use godot::{
-    classes::{AnimatedSprite2D, Area2D, CharacterBody2D, ICharacterBody2D, Marker2D},
+    classes::{AnimatedSprite2D, Area2D, CharacterBody2D, ICharacterBody2D, Marker2D, Timer},
     prelude::*,
 };
 
@@ -19,6 +19,10 @@ pub struct Player {
     shoot_point: Gd<Marker2D>,
     #[export]
     bullet_scene: Gd<PackedScene>,
+    #[export]
+    firerate: Gd<Timer>,
+    #[var]
+    upgrade_counter: i8,
     #[var]
     num_assistent: i8,
     assistents_spawned: i8,
@@ -43,8 +47,10 @@ impl ICharacterBody2D for Player {
             level: Level::First,
             num_assistent: 0,
             assistents_spawned: 0,
+            upgrade_counter: 0,
             shoot_point: Marker2D::new_alloc(),
             bullet_scene: PackedScene::new_gd(),
+            firerate: Timer::new_alloc(),
             base,
         }
     }
@@ -54,10 +60,14 @@ impl ICharacterBody2D for Player {
 
         self.moviment(delta);
         self.set_player_level();
-        self.check_points();
         if input.is_action_just_pressed("Shoot") {
             self.shoot();
+            self.firerate.start();
+        } else if input.is_action_pressed("Shoot") && self.firerate.is_stopped() {
+            self.shoot();
+            self.firerate.start();
         }
+
         //godot_print!("{}", self.points)
     }
 }
@@ -65,7 +75,7 @@ impl ICharacterBody2D for Player {
 #[godot_api]
 impl Player {
     #[func]
-    fn spawn_assistent(&mut self) {
+    pub fn spawn_assistent(&mut self) {
         let assistent_scene: Gd<PackedScene> = load("res://scenes/player/assistent.tscn");
         let mut assistent = assistent_scene.instantiate_as::<Assistent>();
 
@@ -73,13 +83,6 @@ impl Player {
 
         assistent.bind_mut().set_dist(distance);
         self.base_mut().get_parent().unwrap().add_child(assistent);
-    }
-
-    #[func]
-    fn check_points(&mut self) {
-        match self.points {
-            _ => {}
-        }
     }
 
     #[func]

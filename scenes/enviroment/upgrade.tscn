@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dp04yp1sdvfud"]
+
+[ext_resource type="Texture2D" uid="uid://bvdmblvpojj11" path="res://assets/Upgrade.png" id="1_n06m7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o71vk"]
+size = Vector2(12, 10)
+
+[node name="Upgrade" type="Upgrade"]
+speed = 98.0
+collision_layer = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_n06m7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_o71vk")
+
+[connection signal="area_entered" from="." to="." method="on_area_entered"]
