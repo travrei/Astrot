@@ -12,4 +12,5 @@ mod degub;
 mod enemys;
 mod modules;
 mod player;
+mod tilemap;
 mod upgrade;

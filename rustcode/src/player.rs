@@ -26,6 +26,8 @@ pub struct Player {
     #[var]
     num_assistent: i8,
     assistents_spawned: i8,
+    #[var]
+    is_dead: bool,
 
     base: Base<CharacterBody2D>,
 }
@@ -51,23 +53,25 @@ impl ICharacterBody2D for Player {
             shoot_point: Marker2D::new_alloc(),
             bullet_scene: PackedScene::new_gd(),
             firerate: Timer::new_alloc(),
+            is_dead: false,
             base,
         }
     }
 
     fn process(&mut self, delta: f64) {
-        let input = Input::singleton();
+        if !self.is_dead {
+            let input = Input::singleton();
 
-        self.moviment(delta);
-        self.set_player_level();
-        if input.is_action_just_pressed("Shoot") {
-            self.shoot();
-            self.firerate.start();
-        } else if input.is_action_pressed("Shoot") && self.firerate.is_stopped() {
-            self.shoot();
-            self.firerate.start();
+            self.moviment(delta);
+            self.set_player_level();
+            if input.is_action_just_pressed("Shoot") {
+                self.shoot();
+                self.firerate.start();
+            } else if input.is_action_pressed("Shoot") && self.firerate.is_stopped() {
+                self.shoot();
+                self.firerate.start();
+            }
         }
-
         //godot_print!("{}", self.points)
     }
 }
@@ -146,12 +150,18 @@ impl Player {
     }
 
     #[func]
-    fn death(&mut self) {
+    pub fn death(&mut self) {
         let mut sprite = self
             .base()
             .get_node_as::<AnimatedSprite2D>("AnimatedSprite2D");
 
-        sprite.set_animation("death");
+        sprite.set_animation("explosion");
+        sprite.play();
+        self.is_dead = true;
+    }
+
+    #[func]
+    fn on_death_finished(&mut self) {
         self.base_mut().queue_free();
     }
 }

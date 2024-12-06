@@ -1,5 +1,5 @@
 use godot::{
-    classes::{AnimatedSprite2D, Area2D, IArea2D},
+    classes::{AnimatedSprite2D, Area2D, CollisionShape2D, IArea2D},
     prelude::*,
 };
 use rand::{seq::SliceRandom, Rng};
@@ -49,6 +49,8 @@ impl Modules {
             .base_mut()
             .get_node_as::<AnimatedSprite2D>("AnimatedSprite2D");
 
+        self.base_mut().set_monitoring(false);
+        self.base_mut().set_monitorable(false);
         sprite.set_animation("explo");
         sprite.play();
     }
@@ -56,6 +58,8 @@ impl Modules {
     fn death(&mut self) {
         let mut player = self
             .base()
+            .get_parent()
+            .unwrap()
             .get_parent()
             .unwrap()
             .get_node_as::<Player>("Player");

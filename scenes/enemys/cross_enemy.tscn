@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://f7sx48rhkcgt"]
+
+[ext_resource type="Texture2D" uid="uid://b7rkuh5ev5o5n" path="res://assets/Enemys/cross_enemy.png" id="1_7a27l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oh0jo"]
+atlas = ExtResource("1_7a27l")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymw8l"]
+atlas = ExtResource("1_7a27l")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o5vic"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oh0jo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymw8l")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="CrossEnemy" type="CrossEnemy"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_o5vic")
+autoplay = "default"
+frame_progress = 0.210044

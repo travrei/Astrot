@@ -194,17 +194,16 @@ speed = 4000.0
 shoot_point = NodePath("ShootPoint")
 bullet_scene = ExtResource("1_yuo68")
 firerate = NodePath("firerate")
+collision_mask = 18
+collision_priority = 2.0
 
-[node name="hit_area" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_c734u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fi5sk")
-animation = &"lv3"
+animation = &"explosion"
 autoplay = "lv1"
-frame_progress = 0.48676
 
 [node name="ShootPoint" type="Marker2D" parent="."]
 position = Vector2(0, -7)
@@ -212,3 +211,5 @@ position = Vector2(0, -7)
 [node name="firerate" type="Timer" parent="."]
 wait_time = 0.4
 one_shot = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="on_death_finished"]

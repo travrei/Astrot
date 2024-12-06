@@ -1,10 +1,13 @@
+use std::f32::consts::PI;
+
 use godot::{
-    classes::{AnimatedSprite2D, Area2D, IPathFollow2D, PathFollow2D},
+    classes::{AnimatedSprite2D, Area2D, IArea2D, IPathFollow2D, PathFollow2D},
     prelude::*,
 };
 
 use crate::player::Player;
 
+//FollowPath
 #[derive(GodotClass)]
 #[class(base=PathFollow2D)]
 struct FollowPathEnemy {
@@ -49,6 +52,12 @@ impl FollowPathEnemy {
         self.is_dead = true;
         anim.set_scale(Vector2 { x: 1., y: 1. });
         anim.set_animation("explo");
+
+        let mut hit_area = self.base_mut().get_node_as::<Area2D>("hit_area");
+
+        hit_area.set_monitoring(false);
+        hit_area.set_monitorable(false);
+
         let mut player = self
             .base()
             .get_parent()
@@ -67,5 +76,53 @@ impl FollowPathEnemy {
     #[func]
     fn on_sprite_2d_animation_finished(&mut self) {
         self.base_mut().queue_free();
+    }
+
+    #[func]
+    fn on_player_entered(&mut self, mut body: Gd<Player>) {
+        let mut player = self
+            .base()
+            .get_parent()
+            .unwrap()
+            .get_parent()
+            .unwrap()
+            .get_node_as::<Player>("Player");
+
+        player.bind_mut().death();
+    }
+}
+
+//Cross-Enemy (SinWave)
+#[derive(GodotClass)]
+#[class(base=Area2D)]
+pub struct CrossEnemy {
+    #[export]
+    amplitude: f32,
+    #[export]
+    frequencia: f32,
+    time: f32,
+
+    base: Base<Area2D>,
+}
+
+#[godot_api]
+impl IArea2D for CrossEnemy {
+    fn init(base: Base<Area2D>) -> Self {
+        CrossEnemy {
+            amplitude: 2.,
+            frequencia: 2.,
+            time: 0.,
+            base,
+        }
+    }
+
+    fn process(&mut self, delta: f64) {
+        let mut pos = self.base().get_position();
+
+        self.time += delta as f32;
+
+        pos.x += self.amplitude * (PI * self.frequencia * self.time).sin();
+
+        self.base_mut().set_position(pos);
     }
 }

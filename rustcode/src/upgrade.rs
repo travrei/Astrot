@@ -1,5 +1,5 @@
 use godot::{
-    classes::{Area2D, IArea2D, IMarker2D, Marker2D},
+    classes::{Area2D, CharacterBody2D, IArea2D, IMarker2D, Marker2D},
     prelude::*,
 };
 
@@ -93,7 +93,7 @@ impl IArea2D for Upgrade {
 #[godot_api]
 impl Upgrade {
     #[func]
-    fn on_area_entered(&mut self, _area: Gd<Area2D>) {
+    fn on_body_entered(&mut self, _body: Gd<CharacterBody2D>) {
         let mut player = self
             .base()
             .get_parent()
