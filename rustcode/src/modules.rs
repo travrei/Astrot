@@ -1,5 +1,5 @@
 use godot::{
-    classes::{AnimatedSprite2D, Area2D, CollisionShape2D, IArea2D},
+    classes::{AnimatedSprite2D, Area2D, IArea2D},
     prelude::*,
 };
 use rand::{seq::SliceRandom, Rng};

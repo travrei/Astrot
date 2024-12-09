@@ -91,31 +91,20 @@ impl Player {
 
     #[func]
     fn shoot(&mut self) {
+        let spawn_point = self.shoot_point.get_global_position();
+
+        // Load the appropriate bullet scene based on level
         match self.level {
-            Level::First => {
-                let spawn_point = self.shoot_point.get_global_position();
-                let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
-
-                bullet.set_position(spawn_point);
-                self.base_mut().get_parent().unwrap().add_child(bullet);
-            }
             Level::Second => {
-                let spawn_point = self.shoot_point.get_global_position();
-                self.bullet_scene = load("res://scenes/player/player_bullet_lv_2.tscn");
-                let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
-
-                bullet.set_position(spawn_point);
-                self.base_mut().get_parent().unwrap().add_child(bullet);
+                self.bullet_scene = load("res://scenes/player/player_bullet_lv_2.tscn")
             }
-            Level::Final => {
-                let spawn_point = self.shoot_point.get_global_position();
-                self.bullet_scene = load("res://scenes/player/player_bullet_lv_3.tscn");
-                let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
-
-                bullet.set_position(spawn_point);
-                self.base_mut().get_parent().unwrap().add_child(bullet);
-            }
+            Level::Final => self.bullet_scene = load("res://scenes/player/player_bullet_lv_3.tscn"),
+            _ => {}
         }
+
+        let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
+        bullet.set_position(spawn_point);
+        self.base_mut().get_parent().unwrap().add_child(bullet);
     }
 
     #[func]

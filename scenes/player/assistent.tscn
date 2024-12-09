@@ -38,9 +38,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Assistent" type="Assistent" node_paths=PackedStringArray("shoot_point")]
+[node name="Assistent" type="Assistent"]
 speed = 4000.0
-shoot_point = NodePath("shoot_point")
 position = Vector2(64, 399)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

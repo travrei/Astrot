@@ -96,11 +96,13 @@ animations = [{
 size = Vector2(14, 12)
 
 [node name="FollowPathEnemy" type="FollowPathEnemy"]
+speed = 0.2
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 rotation = -1.5708
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_pyruk")
+animation = &"explo"
 autoplay = "default"
 
 [node name="hit_area" type="Area2D" parent="."]
