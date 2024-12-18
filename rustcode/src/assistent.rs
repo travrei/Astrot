@@ -67,37 +67,22 @@ impl Assistent {
             .unwrap()
             .get_node_as::<Player>("Player");
 
+        let spawn_point = self.shoot_point.get_global_position();
         let level = player.bind().get_level().to_string();
-        let level_str = level.as_str();
 
-        match level_str {
-            "First" => {
-                let spawn_point = self.shoot_point.get_global_position();
-                let bullet_scene: Gd<PackedScene> = load("res://scenes/player/player_bullet.tscn");
-                let mut bullet = bullet_scene.instantiate_as::<Area2D>();
-
-                bullet.set_position(spawn_point);
-                self.base_mut().get_parent().unwrap().add_child(bullet);
-            }
-            "Second" => {
-                let spawn_point = self.shoot_point.get_global_position();
-                let bullet_scene: Gd<PackedScene> =
-                    load("res://scenes/player/player_bullet_lv_2.tscn");
-                let mut bullet = bullet_scene.instantiate_as::<Area2D>();
-
-                bullet.set_position(spawn_point);
-                self.base_mut().get_parent().unwrap().add_child(bullet);
-            }
-            "Final" => {
-                let spawn_point = self.shoot_point.get_global_position();
-                let bullet_scene: Gd<PackedScene> =
-                    load("res://scenes/player/player_bullet_lv_3.tscn");
-                let mut bullet = bullet_scene.instantiate_as::<Area2D>();
-
-                bullet.set_position(spawn_point);
-                self.base_mut().get_parent().unwrap().add_child(bullet);
-            }
-            _ => {}
+        let bullet_path = match level.as_str() {
+            "First" => "res://scenes/player/player_bullet.tscn",
+            "Second" => "res://scenes/player/player_bullet_lv_2.tscn",
+            "Final" => "res://scenes/player/player_bullet_lv_3.tscn",
+            _ => return,
         };
+
+        let bullet_scene: Gd<PackedScene> = load(bullet_path);
+        let mut bullet = bullet_scene.instantiate_as::<Area2D>();
+        bullet.set_position(spawn_point);
+
+        if let Some(mut parent) = self.base_mut().get_parent() {
+            parent.add_child(bullet);
+        }
     }
 }
