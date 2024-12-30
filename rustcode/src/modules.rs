@@ -10,21 +10,24 @@ use crate::player::Player;
 #[class(base=Area2D)]
 struct Modules {
     points: i8,
-
+    #[export]
+    min_range: i8,
+    #[export]
+    max_range: i8,
     base: Base<Area2D>,
 }
 
 #[godot_api]
 impl IArea2D for Modules {
     fn init(base: Base<Area2D>) -> Self {
-        Modules { points: 0, base }
+        Modules {points:0,base, min_range: 1, max_range: 3 }
     }
 
     fn ready(&mut self) {
         let mut rng = rand::thread_rng();
 
-        //Aleatorizando a pontuação de 1 a 5
-        self.points = rng.gen_range(1..5);
+        //Aleatorizando a pontuação de 1 a 3
+        self.points = rng.gen_range(self.min_range..self.max_range);
 
         //load nas texturas e aleatorizando-as
         let mut tex: Vec<GString> = vec!["triang".into(), "trape".into(), "quadr".into()];
@@ -49,8 +52,6 @@ impl Modules {
             .base_mut()
             .get_node_as::<AnimatedSprite2D>("AnimatedSprite2D");
 
-        self.base_mut().set_monitoring(false);
-        self.base_mut().set_monitorable(false);
         sprite.set_animation("explo");
         sprite.play();
     }
@@ -63,6 +64,10 @@ impl Modules {
             .get_parent()
             .unwrap()
             .get_node_as::<Player>("Player");
+
+        self.base_mut().set_deferred("monitoring", &false.to_variant());
+        self.base_mut().set_deferred("monitorable", &false.to_variant());
+
 
         let player_points = player.bind().get_points();
 

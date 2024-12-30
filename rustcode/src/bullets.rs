@@ -3,6 +3,8 @@ use godot::{
     prelude::*,
 };
 
+use crate::player::Player;
+
 #[derive(GodotClass)]
 #[class(base=Area2D)]
 struct PlayerBullet {
@@ -105,5 +107,46 @@ impl PlayerBulletLV3 {
     #[func]
     fn on_exit_screen(&mut self) {
         self.base_mut().queue_free();
+    }
+}
+
+#[derive(GodotClass)]
+#[class(base=Area2D)]
+pub struct EnemyBullet {
+    #[var]
+    dir: Vector2,
+    speed: f32,
+    base: Base<Area2D>,
+}
+
+#[godot_api]
+impl IArea2D for EnemyBullet {
+    fn init(base: Base<Area2D>) -> Self {
+        EnemyBullet {
+            dir: Vector2::ZERO,
+            speed: 100.,
+            base,
+        }
+    }
+
+    fn process(&mut self, delta: f64) {
+        let mut pos = self.base().get_position();
+
+        pos += self.dir * self.speed * delta as f32;
+
+        self.base_mut().set_position(pos);
+    }
+}
+
+#[godot_api]
+impl EnemyBullet {
+    #[func]
+    fn exit_screen(&mut self) {
+        self.base_mut().queue_free();
+    }
+
+    #[func]
+    fn on_player_entered(&mut self, mut player: Gd<Player>) {
+        player.bind_mut().death();
     }
 }

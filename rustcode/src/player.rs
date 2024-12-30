@@ -147,6 +147,7 @@ impl Player {
         sprite.set_animation("explosion");
         sprite.play();
         self.is_dead = true;
+        godot_warn!("MORRI!");
     }
 
     #[func]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://iu314q7b6a3m"]
 
-[ext_resource type="Texture2D" uid="uid://t3tmotg0jy77" path="res://assets/star.png" id="1_rady2"]
+[ext_resource type="Texture2D" uid="uid://if1f3xfmj6lc" path="res://assets/star.png" id="1_rady2"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_pgukn"]
 particle_flag_disable_z = true
@@ -35,10 +35,9 @@ hue_variation_min = -2.23517e-08
 hue_variation_max = 1.0
 
 [node name="Bakground" type="Node2D"]
-visible = false
 
 [node name="stars-1" type="GPUParticles2D" parent="."]
-amount = 100
+amount = 50
 process_material = SubResource("ParticleProcessMaterial_pgukn")
 texture = ExtResource("1_rady2")
 lifetime = 10.0

@@ -62,6 +62,8 @@ impl FollowPathEnemy {
             .unwrap()
             .get_parent()
             .unwrap()
+            .get_parent()
+            .unwrap()
             .get_node_as::<Player>("Player");
 
         let player_points = player.bind().get_points();
@@ -80,6 +82,8 @@ impl FollowPathEnemy {
     fn on_player_entered(&mut self, _body: Gd<Player>) {
         let mut player = self
             .base()
+            .get_parent()
+            .unwrap()
             .get_parent()
             .unwrap()
             .get_parent()

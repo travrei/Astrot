@@ -1,13 +1,11 @@
-[gd_scene load_steps=12 format=4 uid="uid://cyrvi3dieq2i3"]
+[gd_scene load_steps=9 format=4 uid="uid://cyrvi3dieq2i3"]
 
 [ext_resource type="PackedScene" uid="uid://iu314q7b6a3m" path="res://scenes/enviroment/stars.tscn" id="1_36q2h"]
-[ext_resource type="PackedScene" uid="uid://ccpk1dijftuj" path="res://scenes/enemys/follow_path_enemy.tscn" id="2_8oecy"]
 [ext_resource type="PackedScene" uid="uid://covdl25xxrcre" path="res://scenes/player/player.tscn" id="2_bds1f"]
-[ext_resource type="Texture2D" uid="uid://be4w7rjgo1xa1" path="res://assets/TileSet/TileSet.png" id="3_3kldm"]
-[ext_resource type="PackedScene" uid="uid://53psr4huanei" path="res://scenes/enemys/gelly_enemy.tscn" id="3_cwpve"]
-[ext_resource type="PackedScene" uid="uid://f7sx48rhkcgt" path="res://scenes/enemys/cross_enemy.tscn" id="4_v45ve"]
+[ext_resource type="Texture2D" uid="uid://c25jukskpe4ao" path="res://assets/TileSet/TileSet.png" id="3_3kldm"]
 [ext_resource type="PackedScene" uid="uid://dp04yp1sdvfud" path="res://scenes/enviroment/upgrade.tscn" id="5_q73w2"]
 [ext_resource type="PackedScene" uid="uid://dou4gprcsrips" path="res://scenes/enviroment/modules.tscn" id="8_s8f5r"]
+[ext_resource type="PackedScene" uid="uid://do1h8q004pruh" path="res://scenes/enemys/radar_enemy.tscn" id="9_4fmvn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tlwtd"]
 texture = ExtResource("3_3kldm")
@@ -40,22 +38,20 @@ texture = ExtResource("3_3kldm")
 [sub_resource type="TileSet" id="TileSet_gch0g"]
 sources/1 = SubResource("TileSetAtlasSource_tlwtd")
 
-[sub_resource type="Curve2D" id="Curve2D_75ag2"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 49, 86, 0, 0, 0, 0, 110, 68, 0, 0, 0, 0, 184, 58, 0, 0, 0, 0, 230, 103, 0, 0, 0, 0, 228, 168, 0, 0, 0, 0, 189, 193, 0, 0, 0, 0, 70, 203, 0, 0, 0, 0, 10, 175, 0, 0, 0, 0, 7, 139, 0, 0, 0, 0, 18, 90, 0, 0, 0, 0, 48, 87)
-}
-point_count = 11
-
 [node name="Teste" type="Node2D"]
 
 [node name="stars" parent="." instance=ExtResource("1_36q2h")]
-visible = true
 position = Vector2(120, 0)
 
 [node name="TileMapLayer" type="SpaceStation" parent="."]
 speed = 35.0
 tile_map_data = PackedByteArray("AAAFABUAAQAAAAIAAAAGABUAAQADAAEAAAAHABUAAQACAAEAAAAIABUAAQACAAIAAAAJABUAAQACAAIAAAAEAA8AAQACAAIAAAAEABAAAQADAAEAAAAEABEAAQACAAIAAAAEABIAAQACAAIAAAAEABMAAQACAAIAAAAFAA8AAQACAAIAAAAFABAAAQAGAAEAAAAFABEAAQADAAAAAAAFABIAAQACAAIAAAAFABMAAQACAAIAAAAGAA8AAQACAAIAAAAGABAAAQACAAIAAAAGABEAAQACAAIAAAAGABIAAQACAAIAAAAGABMAAQACAAIAAAAHAA8AAQACAAIAAAAHABAAAQACAAEAAAAHABEAAQADAAEAAAAHABIAAQACAAIAAAAHABMAAQACAAIAAAAIAA8AAQACAAIAAAAIABAAAQAFAAEAAAAIABEAAQACAAIAAAAIABIAAQACAAIAAAAIABMAAQACAAIAAAAJAA8AAQAEAAAAAAAJABAAAQACAAIAAAAJABEAAQACAAEAAAAJABIAAQAAAAEAAAAJABMAAQACAAIAAAAKAA8AAQACAAIAAAAKABAAAQACAAIAAAAKABEAAQACAAIAAAAKABIAAQACAAIAAAAKABMAAQACAAIAAAALAA8AAQACAAEAAAALABAAAQACAAIAAAALABEAAQADAAEAAAALABIAAQACAAIAAAALABMAAQADAAEAAAAMAA8AAQACAAIAAAAMABAAAQACAAIAAAAMABEAAQACAAIAAAAMABIAAQAEAAEAAAAMABMAAQACAAIAAAADAAsAAQACAAIAAAADAAwAAQACAAIAAAADAA0AAQACAAIAAAADAA4AAQACAAIAAAADAA8AAQADAAEAAAAEAAsAAQACAAIAAAAEAAwAAQACAAIAAAAEAA0AAQACAAIAAAAEAA4AAQACAAIAAAAFAAsAAQACAAIAAAAFAAwAAQACAAIAAAAFAA0AAQACAAIAAAAFAA4AAQACAAIAAAAGAAsAAQACAAIAAAAGAAwAAQACAAIAAAAGAA0AAQADAAEAAAAGAA4AAQACAAIAAAAHAAsAAQAEAAAAAAAHAAwAAQACAAIAAAAHAA0AAQABAAEAAAAHAA4AAQACAAEAAAAIAAsAAQAEAAEAAAAIAAwAAQACAAIAAAAIAA0AAQACAAIAAAAIAA4AAQACAAIAAAAJAAsAAQACAAIAAAAJAAwAAQACAAIAAAAJAA0AAQAEAAEAAAAJAA4AAQADAAEAAAAKAAsAAQAGAAEAAAAKAAwAAQACAAIAAAAKAA0AAQACAAIAAAAKAA4AAQACAAIAAAALAAsAAQACAAIAAAALAAwAAQACAAIAAAALAA0AAQACAAEAAAALAA4AAQADAAEAAAAEAAYAAQACAAIAAAAEAAcAAQACAAIAAAAEAAgAAQAEAAEAAAAEAAkAAQACAAIAAAAEAAoAAQACAAIAAAAFAAYAAQABAAEAAAAFAAcAAQACAAIAAAAFAAgAAQACAAIAAAAFAAkAAQAAAAEAAAAFAAoAAQAEAAAAAAAGAAYAAQACAAIAAAAGAAcAAQACAAIAAAAGAAgAAQACAAIAAAAGAAkAAQACAAIAAAAGAAoAAQACAAIAAAAHAAYAAQACAAIAAAAHAAcAAQACAAIAAAAHAAgAAQACAAIAAAAHAAkAAQACAAIAAAAHAAoAAQACAAIAAAAIAAYAAQACAAEAAAAIAAcAAQAGAAEAAAAIAAgAAQACAAIAAAAIAAkAAQACAAIAAAAIAAoAAQAGAAEAAAAJAAYAAQADAAEAAAAJAAcAAQACAAIAAAAJAAgAAQACAAEAAAAJAAkAAQACAAIAAAAJAAoAAQACAAIAAAAKAAYAAQACAAIAAAAKAAcAAQACAAIAAAAKAAgAAQACAAIAAAAKAAkAAQACAAIAAAAKAAoAAQACAAEAAAAEAP//AQACAAIAAAAEAAAAAQAGAAEAAAAEAAEAAQACAAIAAAAEAAIAAQACAAIAAAAEAAMAAQACAAIAAAAEAAQAAQACAAIAAAAEAAUAAQACAAIAAAAFAP//AQACAAIAAAAFAAAAAQACAAIAAAAFAAEAAQACAAIAAAAFAAIAAQACAAIAAAAFAAMAAQACAAIAAAAFAAQAAQACAAIAAAAFAAUAAQACAAIAAAAGAP//AQACAAIAAAAGAAAAAQACAAIAAAAGAAEAAQAFAAEAAAAGAAIAAQAFAAEAAAAGAAMAAQACAAIAAAAGAAQAAQADAAEAAAAGAAUAAQACAAIAAAAHAP//AQACAAIAAAAHAAAAAQACAAIAAAAHAAEAAQACAAEAAAAHAAIAAQACAAIAAAAHAAMAAQACAAIAAAAHAAQAAQACAAIAAAAHAAUAAQACAAIAAAAIAP//AQAFAAEAAAAIAAAAAQACAAIAAAAIAAEAAQAGAAEAAAAIAAIAAQAGAAEAAAAIAAMAAQACAAIAAAAIAAQAAQACAAIAAAAIAAUAAQACAAIAAAAJAP//AQACAAIAAAAJAAAAAQACAAIAAAAJAAEAAQACAAIAAAAJAAIAAQACAAIAAAAJAAMAAQACAAIAAAAJAAQAAQACAAIAAAAJAAUAAQACAAIAAAAKAP//AQACAAIAAAAKAAAAAQABAAEAAAAKAAEAAQACAAIAAAAKAAIAAQAEAAEAAAAKAAMAAQAAAAEAAAAKAAQAAQAEAAEAAAAKAAUAAQACAAIAAAAEABQAAQAAAAIAAAADABMAAQAAAAIAAAAMABUAAQABAAIAAAANABQAAQABAAIAAAAKABUAAQACAAIAAAALABUAAQACAAIAAAAFABQAAQAGAAEAAAAGABQAAQAEAAEAAAAHABQAAQACAAIAAAAIABQAAQABAAEAAAAJABQAAQACAAEAAAAKABQAAQACAAIAAAALABQAAQACAAIAAAAMABQAAQACAAIAAAA=")
 tile_set = SubResource("TileSet_gch0g")
+
+[node name="Enemys" type="Node" parent="TileMapLayer"]
+
+[node name="RadarEnemy" parent="TileMapLayer/Enemys" instance=ExtResource("9_4fmvn")]
+position = Vector2(194, 312)
 
 [node name="Modules" parent="TileMapLayer" instance=ExtResource("8_s8f5r")]
 position = Vector2(88, 280)
@@ -68,69 +64,6 @@ position = Vector2(120, 184)
 
 [node name="Modules4" parent="TileMapLayer" instance=ExtResource("8_s8f5r")]
 position = Vector2(88, 168)
-
-[node name="Enemys" type="Node" parent="."]
-
-[node name="GellyEnemy" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(73, 215)
-
-[node name="GellyEnemy2" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(89, 215)
-
-[node name="GellyEnemy3" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(57, 215)
-
-[node name="GellyEnemy4" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(121, 215)
-
-[node name="GellyEnemy5" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(137, 215)
-
-[node name="GellyEnemy6" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(105, 215)
-
-[node name="GellyEnemy7" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(169, 215)
-
-[node name="GellyEnemy8" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(185, 215)
-
-[node name="GellyEnemy9" parent="Enemys" instance=ExtResource("3_cwpve")]
-speed = 100.0
-position = Vector2(153, 215)
-
-[node name="CrossEnemy" parent="Enemys" instance=ExtResource("4_v45ve")]
-position = Vector2(105, 282)
-
-[node name="Path2D" type="Path2D" parent="."]
-curve = SubResource("Curve2D_75ag2")
-
-[node name="FollowPathEnemy" parent="Path2D" instance=ExtResource("2_8oecy")]
-position = Vector2(49, 86)
-rotation = -0.286939
-
-[node name="FollowPathEnemy2" parent="Path2D" instance=ExtResource("2_8oecy")]
-position = Vector2(64.4764, 81.4332)
-rotation = -0.286939
-progress = 16.0
-
-[node name="FollowPathEnemy3" parent="Path2D" instance=ExtResource("2_8oecy")]
-position = Vector2(72.012, 79.2096)
-rotation = -0.286939
-progress = 24.0
-
-[node name="FollowPathEnemy4" parent="Path2D" instance=ExtResource("2_8oecy")]
-position = Vector2(79.6917, 76.9434)
-rotation = -0.286939
-progress = 32.0
 
 [node name="Player" parent="." instance=ExtResource("2_bds1f")]
 level = "Final"
