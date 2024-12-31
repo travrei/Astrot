@@ -1,5 +1,8 @@
 use godot::{
-    classes::{AnimatedSprite2D, Area2D, CharacterBody2D, ICharacterBody2D, Marker2D, Timer},
+    classes::{
+        AnimatedSprite2D, Area2D, CharacterBody2D, ICharacterBody2D, InputEvent,
+        InputEventScreenDrag, InputEventScreenTouch, Marker2D, Timer,
+    },
     prelude::*,
 };
 
@@ -10,6 +13,9 @@ use crate::assistent::Assistent;
 pub struct Player {
     #[export]
     speed: f32,
+    dir: Vector2,
+    touch_dir: Vector2,
+    touch: bool,
     #[export]
     #[var]
     points: i16,
@@ -45,6 +51,9 @@ impl ICharacterBody2D for Player {
     fn init(base: Base<CharacterBody2D>) -> Self {
         Player {
             speed: 0.,
+            dir: Vector2::ZERO,
+            touch_dir: Vector2::ZERO,
+            touch: false,
             points: 0,
             level: Level::First,
             num_assistent: 0,
@@ -58,21 +67,40 @@ impl ICharacterBody2D for Player {
         }
     }
 
-    fn process(&mut self, delta: f64) {
-        if !self.is_dead {
-            let input = Input::singleton();
+    fn input(&mut self, event: Gd<InputEvent>) {
+        let input = Input::singleton();
 
-            self.moviment(delta);
-            self.set_player_level();
-            if input.is_action_just_pressed("Shoot") {
-                self.shoot();
-                self.firerate.start();
-            } else if input.is_action_pressed("Shoot") && self.firerate.is_stopped() {
+        if event.is_action_pressed("Shoot")
+            || (input.is_action_pressed("Shoot") && self.firerate.is_stopped())
+        {
+            self.shoot();
+            self.firerate.start();
+        }
+
+        if let Ok(drag) = event.clone().try_cast::<InputEventScreenDrag>() {
+            self.touch_dir = drag.get_relative();
+        }
+
+        if let Ok(touch) = event.clone().try_cast::<InputEventScreenTouch>() {
+            self.touch = touch.is_pressed();
+            if self.touch && self.firerate.is_stopped() {
                 self.shoot();
                 self.firerate.start();
             }
         }
-        //godot_print!("{}", self.points)
+    }
+
+    fn process(&mut self, delta: f64) {
+        if !self.is_dead {
+            self.moviment(delta);
+            self.set_player_level();
+
+            let input = Input::singleton();
+            if (input.is_action_pressed("Shoot") || self.touch) && self.firerate.is_stopped() {
+                self.shoot();
+                self.firerate.start();
+            }
+        }
     }
 }
 
@@ -123,16 +151,18 @@ impl Player {
     fn moviment(&mut self, delta: f64) {
         let input = Input::singleton();
 
-        let mut dir = Vector2::ZERO;
+        self.dir.x = input.get_axis("Left", "Right");
+        self.dir.y = input.get_axis("Up", "Down");
 
-        dir.x = input.get_axis("Left", "Right");
-        dir.y = input.get_axis("Up", "Down");
+        self.dir.normalized_or_zero();
 
-        if dir != Vector2::ZERO {
-            dir.normalized();
+        let mut vel = Vector2::ZERO;
+
+        if self.touch {
+            vel = self.touch_dir * self.speed * delta as f32;
+        } else {
+            vel = self.dir * self.speed * delta as f32;
         }
-
-        let vel = dir * self.speed * delta as f32;
 
         self.base_mut().set_velocity(vel);
         self.base_mut().move_and_slide();

@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://cyrvi3dieq2i3"]
+[gd_scene load_steps=8 format=4 uid="uid://cyrvi3dieq2i3"]
 
 [ext_resource type="PackedScene" uid="uid://iu314q7b6a3m" path="res://scenes/enviroment/stars.tscn" id="1_36q2h"]
 [ext_resource type="PackedScene" uid="uid://covdl25xxrcre" path="res://scenes/player/player.tscn" id="2_bds1f"]
 [ext_resource type="Texture2D" uid="uid://c25jukskpe4ao" path="res://assets/TileSet/TileSet.png" id="3_3kldm"]
 [ext_resource type="PackedScene" uid="uid://dp04yp1sdvfud" path="res://scenes/enviroment/upgrade.tscn" id="5_q73w2"]
 [ext_resource type="PackedScene" uid="uid://dou4gprcsrips" path="res://scenes/enviroment/modules.tscn" id="8_s8f5r"]
-[ext_resource type="PackedScene" uid="uid://do1h8q004pruh" path="res://scenes/enemys/radar_enemy.tscn" id="9_4fmvn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tlwtd"]
 texture = ExtResource("3_3kldm")
@@ -50,9 +49,6 @@ tile_set = SubResource("TileSet_gch0g")
 
 [node name="Enemys" type="Node" parent="TileMapLayer"]
 
-[node name="RadarEnemy" parent="TileMapLayer/Enemys" instance=ExtResource("9_4fmvn")]
-position = Vector2(194, 312)
-
 [node name="Modules" parent="TileMapLayer" instance=ExtResource("8_s8f5r")]
 position = Vector2(88, 280)
 
@@ -66,7 +62,6 @@ position = Vector2(120, 184)
 position = Vector2(88, 168)
 
 [node name="Player" parent="." instance=ExtResource("2_bds1f")]
-level = "Final"
 position = Vector2(133, 403)
 
 [node name="UI" type="CanvasLayer" parent="."]

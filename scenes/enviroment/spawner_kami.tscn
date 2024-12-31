@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://hhtnw1b7844k"]
+
+[ext_resource type="PackedScene" uid="uid://cphevpc2ojwtc" path="res://scenes/enemys/kamikaze_enemy.tscn" id="1_ylwsy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eac0i"]
+size = Vector2(255, 20)
+
+[node name="SpawnerKami" type="SpawnerKami" node_paths=PackedStringArray("timer")]
+amount = 3
+enemy = ExtResource("1_ylwsy")
+timer = NodePath("SpawnTimer")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(117.5, 0)
+shape = SubResource("RectangleShape2D_eac0i")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="on_player_entered"]
+[connection signal="timeout" from="SpawnTimer" to="." method="timer_out"]
