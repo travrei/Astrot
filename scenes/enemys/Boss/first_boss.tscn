@@ -1,0 +1,81 @@
+[gd_scene load_steps=8 format=3 uid="uid://c73a4ohraiyub"]
+
+[ext_resource type="Texture2D" uid="uid://ckbs66wsxc3sk" path="res://assets/FBoss/F_Boss.png" id="1_okelg"]
+[ext_resource type="PackedScene" uid="uid://8rtvsgq0vtpe" path="res://scenes/enemys/Boss/f_boss_torret.tscn" id="2_5wnd8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_by26h"]
+atlas = ExtResource("1_okelg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnid7"]
+atlas = ExtResource("1_okelg")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80jpk"]
+atlas = ExtResource("1_okelg")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gijw6"]
+atlas = ExtResource("1_okelg")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vm5lo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_by26h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnid7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80jpk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gijw6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="FirstBoss" type="FirstBoss"]
+speed = 100.0
+
+[node name="firerate" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vm5lo")
+autoplay = "default"
+frame_progress = 0.400191
+
+[node name="FBossTorret" parent="." node_paths=PackedStringArray("firerate", "boss_base") instance=ExtResource("2_5wnd8")]
+firerate = NodePath("../firerate")
+boss_base = NodePath("..")
+position = Vector2(-8, 10)
+scale = Vector2(1.5, 1.5)
+
+[node name="FBossTorret2" parent="." node_paths=PackedStringArray("firerate", "boss_base") instance=ExtResource("2_5wnd8")]
+firerate = NodePath("../firerate")
+boss_base = NodePath("..")
+position = Vector2(7, 10)
+scale = Vector2(1.5, 1.5)
+
+[node name="FBossTorret3" parent="." node_paths=PackedStringArray("firerate", "boss_base") instance=ExtResource("2_5wnd8")]
+firerate = NodePath("../firerate")
+boss_base = NodePath("..")
+position = Vector2(11, -3)
+scale = Vector2(1.5, 1.5)
+
+[node name="FBossTorret4" parent="." node_paths=PackedStringArray("firerate", "boss_base") instance=ExtResource("2_5wnd8")]
+firerate = NodePath("../firerate")
+boss_base = NodePath("..")
+position = Vector2(-13, -3)
+scale = Vector2(1.5, 1.5)
+
+[connection signal="timeout" from="firerate" to="FBossTorret" method="time_out"]
+[connection signal="timeout" from="firerate" to="FBossTorret2" method="time_out"]
+[connection signal="timeout" from="firerate" to="FBossTorret3" method="time_out"]
+[connection signal="timeout" from="firerate" to="FBossTorret4" method="time_out"]

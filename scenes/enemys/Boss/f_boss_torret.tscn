@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://8rtvsgq0vtpe"]
+
+[ext_resource type="PackedScene" uid="uid://3w02b2cmpqlm" path="res://scenes/enemys/enemy_bullet.tscn" id="1_inmxf"]
+[ext_resource type="Texture2D" uid="uid://bskg3hc7u2ayv" path="res://assets/FBoss/Turret_boss1.png" id="2_mitkr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlwyo"]
+atlas = ExtResource("2_mitkr")
+region = Rect2(1, 11, 5, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xygi6"]
+size = Vector2(5.75, 5.75)
+
+[node name="FBossTorret" type="FBossTorret"]
+bullet_scene = ExtResource("1_inmxf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_tlwyo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_xygi6")
