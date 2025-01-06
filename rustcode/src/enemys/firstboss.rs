@@ -65,16 +65,19 @@ impl FBossTorret {
 
     #[func]
     fn shoot(&mut self) {
-        let torrent_pos = self.base().get_position();
+        let torrent_pos = self.base().get_global_position();
 
         let player_pos = self.get_player_position();
 
         let direction = (player_pos - torrent_pos).normalized_or_zero();
 
         let mut bullet = self.bullet_scene.instantiate_as::<EnemyBullet>();
-        bullet.set_global_position(torrent_pos);
+        self.base_mut()
+            .get_parent()
+            .unwrap()
+            .add_child(bullet.clone());
+        bullet.clone().set_global_position(torrent_pos);
         bullet.bind_mut().set_dir(direction);
-        self.base_mut().get_parent().unwrap().add_child(bullet);
     }
 
     #[func]
