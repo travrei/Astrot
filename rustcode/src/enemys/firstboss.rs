@@ -35,8 +35,6 @@ pub struct FBossTorret {
     firerate: Gd<Timer>,
     #[export]
     bullet_scene: Gd<PackedScene>,
-    #[export]
-    boss_base: Gd<FirstBoss>,
     base: Base<Area2D>,
 }
 
@@ -46,7 +44,6 @@ impl IArea2D for FBossTorret {
         FBossTorret {
             bullet_scene: PackedScene::new_gd(),
             firerate: Timer::new_alloc(),
-            boss_base: FirstBoss::new_alloc(),
             base,
         }
     }
@@ -68,17 +65,15 @@ impl FBossTorret {
 
     #[func]
     fn shoot(&mut self) {
-        let mut boss_pos = self.boss_base.get_position();
+        let torrent_pos = self.base().get_position();
 
         let player_pos = self.get_player_position();
 
-        let direction = (player_pos - boss_pos).normalized_or_zero();
+        let direction = (player_pos - torrent_pos).normalized_or_zero();
 
         let mut bullet = self.bullet_scene.instantiate_as::<EnemyBullet>();
-        boss_pos.x = -100.;
-        bullet.set_position(boss_pos);
-        //bullet.bind_mut().set_dir(direction);
-        godot_print!("{:?}", bullet.get_global_position());
+        bullet.set_global_position(torrent_pos);
+        bullet.bind_mut().set_dir(direction);
         self.base_mut().get_parent().unwrap().add_child(bullet);
     }
 

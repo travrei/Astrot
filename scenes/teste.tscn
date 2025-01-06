@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://iu314q7b6a3m" path="res://scenes/enviroment/stars.tscn" id="1_36q2h"]
 [ext_resource type="PackedScene" uid="uid://covdl25xxrcre" path="res://scenes/player/player.tscn" id="2_bds1f"]
 [ext_resource type="Texture2D" uid="uid://c25jukskpe4ao" path="res://assets/TileSet/TileSet.png" id="3_3kldm"]
-[ext_resource type="PackedScene" uid="uid://c73a4ohraiyub" path="res://scenes/enemys/Boss/first_boss.tscn" id="5_38y6s"]
+[ext_resource type="PackedScene" uid="uid://c73a4ohraiyub" path="res://scenes/enemys/Boss/first_boss.tscn" id="5_j8u1c"]
 [ext_resource type="PackedScene" uid="uid://dp04yp1sdvfud" path="res://scenes/enviroment/upgrade.tscn" id="5_q73w2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tlwtd"]
@@ -63,5 +63,5 @@ upgrade = ExtResource("5_q73w2")
 next_spawn_threshold = 8
 position = Vector2(120, 0)
 
-[node name="FirstBoss" parent="." instance=ExtResource("5_38y6s")]
-position = Vector2(121, 20)
+[node name="FirstBoss" parent="." instance=ExtResource("5_j8u1c")]
+position = Vector2(120, 24)
