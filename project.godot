@@ -75,6 +75,7 @@ pointing/emulate_mouse_from_touch=false
 2d_physics/layer_3="Bullets"
 2d_physics/layer_4="Modulos"
 2d_physics/layer_5="Env"
+2d_physics/layer_6="EnemyBullet"
 
 [rendering]
 

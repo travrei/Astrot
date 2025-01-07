@@ -194,7 +194,7 @@ speed = 4000.0
 shoot_point = NodePath("ShootPoint")
 bullet_scene = ExtResource("1_yuo68")
 firerate = NodePath("firerate")
-collision_mask = 18
+collision_mask = 50
 collision_priority = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

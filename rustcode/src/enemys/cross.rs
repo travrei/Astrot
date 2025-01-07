@@ -58,8 +58,6 @@ impl CrossEnemy {
             .unwrap()
             .get_parent()
             .unwrap()
-            .get_parent()
-            .unwrap()
             .get_node_as::<Player>("Player");
 
         player.bind_mut().death();
@@ -80,8 +78,6 @@ impl CrossEnemy {
 
         let mut player = self
             .base()
-            .get_parent()
-            .unwrap()
             .get_parent()
             .unwrap()
             .get_parent()

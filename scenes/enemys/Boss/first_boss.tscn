@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://c73a4ohraiyub"]
+[gd_scene load_steps=10 format=3 uid="uid://c73a4ohraiyub"]
 
 [ext_resource type="Texture2D" uid="uid://ckbs66wsxc3sk" path="res://assets/FBoss/F_Boss.png" id="1_okelg"]
 [ext_resource type="PackedScene" uid="uid://8rtvsgq0vtpe" path="res://scenes/enemys/Boss/f_boss_torret.tscn" id="2_5wnd8"]
+[ext_resource type="PackedScene" uid="uid://vj8182jn8be5" path="res://scenes/enemys/Boss/central_torret.tscn" id="3_8xjtp"]
+[ext_resource type="PackedScene" uid="uid://3w02b2cmpqlm" path="res://scenes/enemys/enemy_bullet.tscn" id="4_l32f8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_by26h"]
 atlas = ExtResource("1_okelg")
@@ -43,8 +45,11 @@ animations = [{
 speed = 100.0
 
 [node name="firerate" type="Timer" parent="."]
-wait_time = 2.0
 autostart = true
+
+[node name="firerate_central" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vm5lo")
@@ -53,25 +58,41 @@ frame_progress = 0.400191
 
 [node name="FBossTorret" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
+health = 1.0
 position = Vector2(-8, 10)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret2" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
+health = 1.0
 position = Vector2(7, 10)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret3" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
+health = 1.0
 position = Vector2(11, -3)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret4" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
+health = 1.0
 position = Vector2(-13, -3)
 scale = Vector2(1.5, 1.5)
+
+[node name="CentralTorret" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("3_8xjtp")]
+firerate = NodePath("../firerate_central")
+bullet_scene = ExtResource("4_l32f8")
+health = 10.0
+position = Vector2(0, -6)
+scale = Vector2(1.5, 1.5)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(7.15256e-07, 1)
+scale = Vector2(1.8, 1.9)
 
 [connection signal="timeout" from="firerate" to="FBossTorret" method="time_out"]
 [connection signal="timeout" from="firerate" to="FBossTorret2" method="time_out"]
 [connection signal="timeout" from="firerate" to="FBossTorret3" method="time_out"]
 [connection signal="timeout" from="firerate" to="FBossTorret4" method="time_out"]
+[connection signal="timeout" from="firerate_central" to="CentralTorret" method="time_out"]

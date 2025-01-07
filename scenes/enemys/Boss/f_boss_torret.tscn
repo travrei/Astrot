@@ -12,6 +12,8 @@ size = Vector2(5.75, 5.75)
 
 [node name="FBossTorret" type="FBossTorret"]
 bullet_scene = ExtResource("1_inmxf")
+collision_layer = 2
+collision_mask = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_tlwyo")
@@ -19,3 +21,5 @@ texture = SubResource("AtlasTexture_tlwyo")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_xygi6")
+
+[connection signal="area_entered" from="." to="." method="hit"]

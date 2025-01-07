@@ -1,7 +1,7 @@
 [gd_scene load_steps=23 format=3 uid="uid://53psr4huanei"]
 
-[ext_resource type="Texture2D" uid="uid://c4ykndaceiqc5" path="res://assets/Enemys/gelly_enemy.png" id="1_id3xa"]
-[ext_resource type="Texture2D" uid="uid://betqs2aqg7mg" path="res://assets/explosion.png" id="2_obk68"]
+[ext_resource type="Texture2D" uid="uid://b23x6evj4061k" path="res://assets/Enemys/gelly_enemy.png" id="1_id3xa"]
+[ext_resource type="Texture2D" uid="uid://cyt758a5epuly" path="res://assets/explosion.png" id="2_obk68"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_06jpl"]
 atlas = ExtResource("1_id3xa")
@@ -149,6 +149,7 @@ animations = [{
 size = Vector2(14, 14)
 
 [node name="GellyEnemy" type="GellyEnemy"]
+speed = 45.0
 collision_layer = 2
 collision_mask = 5
 

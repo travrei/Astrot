@@ -65,8 +65,6 @@ impl GellyEnemy {
             .unwrap()
             .get_parent()
             .unwrap()
-            .get_parent()
-            .unwrap()
             .get_node_as::<Player>("Player");
 
         player.bind_mut().death();
@@ -88,8 +86,6 @@ impl GellyEnemy {
 
         let mut player = self
             .base()
-            .get_parent()
-            .unwrap()
             .get_parent()
             .unwrap()
             .get_parent()

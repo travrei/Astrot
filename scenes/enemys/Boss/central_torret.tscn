@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://vj8182jn8be5"]
+
+[ext_resource type="Texture2D" uid="uid://bskg3hc7u2ayv" path="res://assets/FBoss/Turret_boss1.png" id="1_bf6on"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p50sv"]
+atlas = ExtResource("1_bf6on")
+region = Rect2(12, 7, 8, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gxix4"]
+size = Vector2(8, 10)
+
+[node name="CentralTorret" type="CentralTorret"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_p50sv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gxix4")
