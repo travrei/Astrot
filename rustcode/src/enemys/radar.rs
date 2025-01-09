@@ -1,5 +1,5 @@
 use godot::{
-    classes::{Area2D, IArea2D, Marker2D, Timer},
+    classes::{AnimatedSprite2D, Area2D, IArea2D, Marker2D, Timer},
     prelude::*,
 };
 
@@ -11,7 +11,7 @@ pub struct RadarEnemy {
     #[export]
     speed: f32,
     #[export]
-    point: i8,
+    point: i16,
     #[export]
     finaltimer: Gd<Timer>,
     #[export]
@@ -62,6 +62,42 @@ impl RadarEnemy {
         bullet.bind_mut().set_dir(direction);
         self.base_mut().get_parent().unwrap().add_child(bullet);
         self.finaltimer.start();
+    }
+
+    #[func]
+    fn hit(&mut self, _area: Gd<Area2D>) {
+        let mut anim = self
+            .base()
+            .get_node_as::<AnimatedSprite2D>("AnimatedSprite2D");
+
+        self.is_dead = true;
+        anim.set_animation("explo");
+
+        self.base_mut()
+            .set_deferred("monitoring", &false.to_variant());
+        self.base_mut()
+            .set_deferred("monitorable", &false.to_variant());
+
+        let mut player = self
+            .base()
+            .get_parent()
+            .unwrap()
+            .get_parent()
+            .unwrap()
+            .get_parent()
+            .unwrap()
+            .get_node_as::<Player>("Player");
+
+        let player_points = player.bind().get_points();
+
+        let final_points = player_points + self.point;
+
+        player.bind_mut().set_points(final_points);
+    }
+
+    #[func]
+    fn on_sprite_2d_animation_finished(&mut self) {
+        self.base_mut().queue_free()
     }
 
     #[func]

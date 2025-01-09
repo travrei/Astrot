@@ -58,25 +58,21 @@ frame_progress = 0.400191
 
 [node name="FBossTorret" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
-health = 1.0
 position = Vector2(-8, 10)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret2" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
-health = 1.0
 position = Vector2(7, 10)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret3" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
-health = 1.0
 position = Vector2(11, -3)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret4" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
-health = 1.0
 position = Vector2(-13, -3)
 scale = Vector2(1.5, 1.5)
 

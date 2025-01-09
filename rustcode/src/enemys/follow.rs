@@ -64,6 +64,8 @@ impl FollowPathEnemy {
             .unwrap()
             .get_parent()
             .unwrap()
+            .get_parent()
+            .unwrap()
             .get_node_as::<Player>("Player");
 
         let player_points = player.bind().get_points();
