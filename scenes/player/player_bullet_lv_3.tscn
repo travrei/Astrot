@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dei0m8am60eak"]
 
-[ext_resource type="Texture2D" uid="uid://ckeqigvhcwviq" path="res://assets/Player/Bulletlast.png" id="1_lr421"]
+[ext_resource type="Texture2D" uid="uid://ckfnwlwgaw4uu" path="res://assets/Player/Bulletlast.png" id="1_lr421"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v0mno"]
 size = Vector2(10, 8)

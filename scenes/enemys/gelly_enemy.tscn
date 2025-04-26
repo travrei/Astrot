@@ -1,7 +1,8 @@
-[gd_scene load_steps=23 format=3 uid="uid://53psr4huanei"]
+[gd_scene load_steps=24 format=3 uid="uid://53psr4huanei"]
 
 [ext_resource type="Texture2D" uid="uid://b23x6evj4061k" path="res://assets/Enemys/gelly_enemy.png" id="1_id3xa"]
 [ext_resource type="Texture2D" uid="uid://cyt758a5epuly" path="res://assets/explosion.png" id="2_obk68"]
+[ext_resource type="AudioStream" uid="uid://c7huxhgd6j5mv" path="res://assets/Audio/Fx/Explosion2.wav" id="3_5coon"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_06jpl"]
 atlas = ExtResource("1_id3xa")
@@ -148,8 +149,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vswjv"]
 size = Vector2(14, 14)
 
-[node name="GellyEnemy" type="GellyEnemy"]
+[node name="GellyEnemy" type="GellyEnemy" node_paths=PackedStringArray("explosion_sound")]
 speed = 45.0
+explosion_sound = NodePath("explosion_sound")
 collision_layer = 2
 collision_mask = 5
 
@@ -159,6 +161,11 @@ autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vswjv")
+
+[node name="explosion_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_5coon")
+volume_db = -10.0
+pitch_scale = 3.01
 
 [connection signal="area_entered" from="." to="." method="hit"]
 [connection signal="body_entered" from="." to="." method="on_player_entered"]

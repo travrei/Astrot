@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c73a4ohraiyub"]
+[gd_scene load_steps=13 format=3 uid="uid://c73a4ohraiyub"]
 
 [ext_resource type="Texture2D" uid="uid://ckbs66wsxc3sk" path="res://assets/FBoss/F_Boss.png" id="1_okelg"]
 [ext_resource type="PackedScene" uid="uid://8rtvsgq0vtpe" path="res://scenes/enemys/Boss/f_boss_torret.tscn" id="2_5wnd8"]
@@ -41,6 +41,57 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="Animation" id="Animation_y005j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ynkov"]
+resource_name = "death"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_spj4x"]
+_data = {
+&"RESET": SubResource("Animation_y005j"),
+&"death": SubResource("Animation_ynkov")
+}
+
 [node name="FirstBoss" type="FirstBoss"]
 speed = 100.0
 
@@ -58,25 +109,21 @@ frame_progress = 0.400191
 
 [node name="FBossTorret" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
-health = 1.0
 position = Vector2(-8, 10)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret2" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
-health = 1.0
 position = Vector2(7, 10)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret3" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
-health = 1.0
 position = Vector2(11, -3)
 scale = Vector2(1.5, 1.5)
 
 [node name="FBossTorret4" parent="." node_paths=PackedStringArray("firerate") instance=ExtResource("2_5wnd8")]
 firerate = NodePath("../firerate")
-health = 1.0
 position = Vector2(-13, -3)
 scale = Vector2(1.5, 1.5)
 
@@ -86,10 +133,13 @@ bullet_scene = ExtResource("4_l32f8")
 health = 10.0
 position = Vector2(0, -6)
 scale = Vector2(1.5, 1.5)
+monitoring = false
+monitorable = false
 
-[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
-position = Vector2(7.15256e-07, 1)
-scale = Vector2(1.8, 1.9)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_spj4x")
+}
 
 [connection signal="timeout" from="firerate" to="FBossTorret" method="time_out"]
 [connection signal="timeout" from="firerate" to="FBossTorret2" method="time_out"]

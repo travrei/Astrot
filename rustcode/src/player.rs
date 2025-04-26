@@ -5,6 +5,7 @@ use godot::{
     },
     prelude::*,
 };
+use rand::{thread_rng, Rng};
 
 use crate::assistent::Assistent;
 
@@ -27,6 +28,10 @@ pub struct Player {
     bullet_scene: Gd<PackedScene>,
     #[export]
     firerate: Gd<Timer>,
+    #[export]
+    shoot_sound: Gd<AudioStreamPlayer>,
+    #[export]
+    explosion_sound: Gd<AudioStreamPlayer>,
     #[var]
     upgrade_counter: i8,
     #[var]
@@ -62,6 +67,8 @@ impl ICharacterBody2D for Player {
             shoot_point: Marker2D::new_alloc(),
             bullet_scene: PackedScene::new_gd(),
             firerate: Timer::new_alloc(),
+            shoot_sound: AudioStreamPlayer::new_alloc(),
+            explosion_sound: AudioStreamPlayer::new_alloc(),
             is_dead: false,
             base,
         }
@@ -130,6 +137,11 @@ impl Player {
             _ => {}
         }
 
+        let mut rng = thread_rng();
+        let pitch = rng.gen_range(0.88..1.5);
+        self.shoot_sound.set_pitch_scale(pitch);
+        self.shoot_sound.play();
+
         let mut bullet = self.bullet_scene.instantiate_as::<Area2D>();
         bullet.set_position(spawn_point);
         self.base_mut().get_parent().unwrap().add_child(bullet);
@@ -177,7 +189,7 @@ impl Player {
         sprite.set_animation("explosion");
         sprite.play();
         self.is_dead = true;
-        godot_warn!("MORRI!");
+        self.explosion_sound.play();
     }
 
     #[func]

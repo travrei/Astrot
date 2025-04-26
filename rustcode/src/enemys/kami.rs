@@ -1,11 +1,9 @@
 use godot::{
-    classes::{Area2D, CharacterBody2D, IArea2D, Timer},
+    classes::{AnimatedSprite2D, Area2D, CharacterBody2D, IArea2D, Timer},
     prelude::*,
 };
 
 use crate::player::Player;
-
-use super::follow;
 
 #[derive(GodotClass)]
 #[class(base=Area2D)]
@@ -13,10 +11,13 @@ pub struct KamikazeEnemy {
     #[export]
     speed: f32,
     #[export]
-    points: i8,
+    point: i16,
     #[export]
     followtimer: Gd<Timer>,
+    #[export]
+    explosion_sound: Gd<AudioStreamPlayer>,
     following: bool,
+    is_dead: bool,
     base: Base<Area2D>,
 }
 
@@ -25,9 +26,11 @@ impl IArea2D for KamikazeEnemy {
     fn init(base: Base<Area2D>) -> Self {
         KamikazeEnemy {
             speed: 0.,
-            points: 1,
+            point: 1,
             followtimer: Timer::new_alloc(),
             following: true,
+            is_dead: false,
+            explosion_sound: AudioStreamPlayer::new_alloc(),
             base,
         }
     }
@@ -72,6 +75,51 @@ impl KamikazeEnemy {
     fn timer_out(&mut self) {
         self.following = false
     }
+
+    #[func]
+    pub fn on_player_entered(&mut self, _body: Gd<Player>) {
+        let mut player = self
+            .base()
+            .get_parent()
+            .unwrap()
+            .get_node_as::<Player>("Player");
+
+        player.bind_mut().death();
+    }
+
+    #[func]
+    fn hit(&mut self, _area: Gd<Area2D>) {
+        let mut anim = self
+            .base()
+            .get_node_as::<AnimatedSprite2D>("AnimatedSprite2D");
+
+        self.is_dead = true;
+        anim.set_animation("explo");
+
+        self.base_mut()
+            .set_deferred("monitoring", &false.to_variant());
+        self.base_mut()
+            .set_deferred("monitorable", &false.to_variant());
+
+        let mut player = self
+            .base()
+            .get_parent()
+            .unwrap()
+            .get_node_as::<Player>("Player");
+
+        let player_points = player.bind().get_points();
+
+        let final_points = player_points + self.point;
+
+        self.explosion_sound.play();
+
+        player.bind_mut().set_points(final_points);
+    }
+
+    #[func]
+    fn on_sprite_2d_animation_finished(&mut self) {
+        self.base_mut().queue_free()
+    }
 }
 
 #[derive(GodotClass)]
@@ -104,6 +152,8 @@ impl SpawnerKami {
     fn spawn(&mut self) {
         let enemys = self.enemy.instantiate_as::<KamikazeEnemy>();
         self.base_mut()
+            .get_parent()
+            .unwrap()
             .get_parent()
             .unwrap()
             .get_parent()

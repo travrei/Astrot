@@ -1,5 +1,5 @@
 use godot::{
-    classes::{ITileMapLayer, TileMapLayer},
+    classes::{Area2D, ITileMapLayer, TileMapLayer},
     prelude::*,
 };
 
@@ -45,13 +45,18 @@ impl SpaceStation {
 
         let mut boss_node = boss_scene.instantiate_as::<FirstBoss>();
 
-        boss_node.set_position(Vector2::new(0., 10.));
-
+        boss_node.set_position(Vector2::new(0., 25.));
+        boss_node.set_scale(Vector2::new(1.5, 1.5));
         self.base().get_parent().unwrap().add_child(boss_node);
     }
     #[func]
     fn stop(&mut self, _body: Gd<Node2D>) {
         self.is_moving = false;
+        let mut boss_area = self.base().get_node_as::<Area2D>("Boss_area");
+
+        boss_area.set_deferred("monitoring", &false.to_variant());
+        boss_area.set_deferred("monitorable", &false.to_variant());
+
         self.spawn_bos()
     }
 }

@@ -31,6 +31,6 @@ impl ILabel for PlayerPoints {
         let text = points.to_string();
         let gtext = text.to_godot();
 
-        self.base_mut().set_text(&gtext);
+        //self.base_mut().set_text(&gtext);
     }
 }

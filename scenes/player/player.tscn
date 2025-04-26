@@ -1,10 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://covdl25xxrcre"]
+[gd_scene load_steps=32 format=3 uid="uid://covdl25xxrcre"]
 
 [ext_resource type="Texture2D" uid="uid://cyt758a5epuly" path="res://assets/explosion.png" id="1_3p0t5"]
 [ext_resource type="PackedScene" uid="uid://dqf424queatsj" path="res://scenes/player/player_bullet.tscn" id="1_yuo68"]
 [ext_resource type="Texture2D" uid="uid://b66q7nho5dn3o" path="res://assets/Player/player.png" id="2_dd0yf"]
 [ext_resource type="Texture2D" uid="uid://brpmbcwpaebx" path="res://assets/Player/first_upgrade.png" id="3_xrox1"]
 [ext_resource type="Texture2D" uid="uid://ckyd3exy0rjr" path="res://assets/Player/last_upgrade.png" id="4_2tdh3"]
+[ext_resource type="AudioStream" uid="uid://opnfx55qtub" path="res://assets/Audio/Fx/Laser_Shoot7.wav" id="6_ve6o1"]
+[ext_resource type="AudioStream" uid="uid://dciljmgqvnjit" path="res://assets/Audio/Fx/Explosion3.wav" id="7_1rs62"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c734u"]
 size = Vector2(14.5, 15)
@@ -189,11 +191,13 @@ animations = [{
 "speed": 20.0
 }]
 
-[node name="Player" type="Player" node_paths=PackedStringArray("shoot_point", "firerate")]
+[node name="Player" type="Player" node_paths=PackedStringArray("shoot_point", "firerate", "shoot_sound", "explosion_sound")]
 speed = 4000.0
 shoot_point = NodePath("ShootPoint")
 bullet_scene = ExtResource("1_yuo68")
 firerate = NodePath("firerate")
+shoot_sound = NodePath("shoot_sound")
+explosion_sound = NodePath("explosion_sound")
 collision_mask = 50
 collision_priority = 2.0
 
@@ -202,7 +206,7 @@ shape = SubResource("RectangleShape2D_c734u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fi5sk")
-animation = &"explosion"
+animation = &"lv1"
 autoplay = "lv1"
 
 [node name="ShootPoint" type="Marker2D" parent="."]
@@ -211,5 +215,13 @@ position = Vector2(0, -7)
 [node name="firerate" type="Timer" parent="."]
 wait_time = 0.4
 one_shot = true
+
+[node name="shoot_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_ve6o1")
+volume_db = -10.0
+
+[node name="explosion_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_1rs62")
+volume_db = -10.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="on_death_finished"]

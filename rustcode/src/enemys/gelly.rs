@@ -14,6 +14,8 @@ struct GellyEnemy {
     dir: Vector2,
     is_dead: bool,
     #[export]
+    explosion_sound: Gd<AudioStreamPlayer>,
+    #[export]
     point: i16,
     base: Base<Area2D>,
 }
@@ -33,6 +35,7 @@ impl IArea2D for GellyEnemy {
         GellyEnemy {
             speed: 0.,
             dir: Vector2::ZERO,
+            explosion_sound: AudioStreamPlayer::new_alloc(),
             is_dead: false,
             point: 1,
             base,
@@ -65,6 +68,8 @@ impl GellyEnemy {
             .unwrap()
             .get_parent()
             .unwrap()
+            .get_parent()
+            .unwrap()
             .get_node_as::<Player>("Player");
 
         player.bind_mut().death();
@@ -90,11 +95,15 @@ impl GellyEnemy {
             .unwrap()
             .get_parent()
             .unwrap()
+            .get_parent()
+            .unwrap()
             .get_node_as::<Player>("Player");
 
         let player_points = player.bind().get_points();
 
         let final_points = player_points + self.point;
+
+        self.explosion_sound.play();
 
         player.bind_mut().set_points(final_points);
     }

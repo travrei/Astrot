@@ -14,13 +14,21 @@ struct Modules {
     min_range: i8,
     #[export]
     max_range: i8,
+    #[export]
+    explosion_sound: Gd<AudioStreamPlayer>,
     base: Base<Area2D>,
 }
 
 #[godot_api]
 impl IArea2D for Modules {
     fn init(base: Base<Area2D>) -> Self {
-        Modules {points:0,base, min_range: 1, max_range: 3 }
+        Modules {
+            points: 0,
+            base,
+            explosion_sound: AudioStreamPlayer::new_alloc(),
+            min_range: 1,
+            max_range: 3,
+        }
     }
 
     fn ready(&mut self) {
@@ -54,6 +62,12 @@ impl Modules {
 
         sprite.set_animation("explo");
         sprite.play();
+        self.base_mut()
+            .set_deferred("monitoring", &false.to_variant());
+        self.base_mut()
+            .set_deferred("monitorable", &false.to_variant());
+
+        self.explosion_sound.play();
     }
     #[func]
     fn death(&mut self) {
@@ -63,11 +77,9 @@ impl Modules {
             .unwrap()
             .get_parent()
             .unwrap()
+            .get_parent()
+            .unwrap()
             .get_node_as::<Player>("Player");
-
-        self.base_mut().set_deferred("monitoring", &false.to_variant());
-        self.base_mut().set_deferred("monitorable", &false.to_variant());
-
 
         let player_points = player.bind().get_points();
 

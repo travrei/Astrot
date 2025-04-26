@@ -1,12 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://dp04yp1sdvfud"]
+[gd_scene load_steps=4 format=3 uid="uid://dp04yp1sdvfud"]
 
-[ext_resource type="Texture2D" uid="uid://bvdmblvpojj11" path="res://assets/Upgrade.png" id="1_n06m7"]
+[ext_resource type="Texture2D" uid="uid://bw1iffka527ew" path="res://assets/Upgrade.png" id="1_n06m7"]
+[ext_resource type="AudioStream" uid="uid://bd5laqk4xxara" path="res://assets/Audio/Fx/Powerup2.wav" id="2_uqp7s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o71vk"]
 size = Vector2(12, 10)
 
-[node name="Upgrade" type="Upgrade"]
+[node name="Upgrade" type="Upgrade" node_paths=PackedStringArray("get_sound")]
 speed = 98.0
+get_sound = NodePath("get_sound")
 collision_layer = 16
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -14,5 +16,10 @@ texture = ExtResource("1_n06m7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_o71vk")
+
+[node name="get_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_uqp7s")
+volume_db = -10.0
+pitch_scale = 0.69
 
 [connection signal="body_entered" from="." to="." method="on_body_entered"]

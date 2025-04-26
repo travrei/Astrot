@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://dou4gprcsrips"]
+[gd_scene load_steps=19 format=3 uid="uid://dou4gprcsrips"]
 
 [ext_resource type="Texture2D" uid="uid://cyt758a5epuly" path="res://assets/explosion.png" id="1_mju31"]
 [ext_resource type="Texture2D" uid="uid://c25jukskpe4ao" path="res://assets/TileSet/TileSet.png" id="2_1s7ct"]
+[ext_resource type="AudioStream" uid="uid://51dqvn8dkv1v" path="res://assets/Audio/Fx/Explosionmod.wav" id="3_0183k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_udtwa"]
 atlas = ExtResource("1_mju31")
@@ -123,7 +124,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_behbn"]
 size = Vector2(16, 16)
 
-[node name="Modules" type="Modules"]
+[node name="Modules" type="Modules" node_paths=PackedStringArray("explosion_sound")]
+explosion_sound = NodePath("explosion_sound")
 collision_layer = 8
 collision_mask = 4
 
@@ -133,6 +135,10 @@ animation = &"quadr"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_behbn")
+
+[node name="explosion_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_0183k")
+volume_db = -10.0
 
 [connection signal="area_entered" from="." to="." method="hit"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="death"]

@@ -61,13 +61,19 @@ impl SpawnerUpgrade {
 pub struct Upgrade {
     #[export]
     speed: f32,
+    #[export]
+    get_sound: Gd<AudioStreamPlayer>,
     base: Base<Area2D>,
 }
 
 #[godot_api]
 impl IArea2D for Upgrade {
     fn init(base: Base<Area2D>) -> Self {
-        Upgrade { speed: 0., base }
+        Upgrade {
+            speed: 0.,
+            get_sound: AudioStreamPlayer::new_alloc(),
+            base,
+        }
     }
 
     fn ready(&mut self) {
@@ -94,6 +100,7 @@ impl IArea2D for Upgrade {
 impl Upgrade {
     #[func]
     fn on_body_entered(&mut self, _body: Gd<CharacterBody2D>) {
+        self.get_sound.play();
         let mut player = self
             .base()
             .get_parent()

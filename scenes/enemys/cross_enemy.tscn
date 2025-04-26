@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://f7sx48rhkcgt"]
+[gd_scene load_steps=18 format=3 uid="uid://f7sx48rhkcgt"]
 
-[ext_resource type="Texture2D" uid="uid://b7rkuh5ev5o5n" path="res://assets/Enemys/cross_enemy.png" id="1_7a27l"]
-[ext_resource type="Texture2D" uid="uid://betqs2aqg7mg" path="res://assets/explosion.png" id="2_a0qcu"]
+[ext_resource type="Texture2D" uid="uid://wsgvvg4ta2hb" path="res://assets/Enemys/cross_enemy.png" id="1_7a27l"]
+[ext_resource type="Texture2D" uid="uid://cyt758a5epuly" path="res://assets/explosion.png" id="2_a0qcu"]
+[ext_resource type="AudioStream" uid="uid://c7huxhgd6j5mv" path="res://assets/Audio/Fx/Explosion2.wav" id="3_n43sc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oh0jo"]
 atlas = ExtResource("1_7a27l")
@@ -106,8 +107,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mex64"]
 size = Vector2(16, 16)
 
-[node name="CrossEnemy" type="CrossEnemy"]
+[node name="CrossEnemy" type="CrossEnemy" node_paths=PackedStringArray("explosion_sound")]
 point = 1
+explosion_sound = NodePath("explosion_sound")
 collision_layer = 2
 collision_mask = 5
 
@@ -117,6 +119,11 @@ autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_mex64")
+
+[node name="explosion_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_n43sc")
+volume_db = -10.0
+pitch_scale = 0.53
 
 [connection signal="area_entered" from="." to="." method="hit"]
 [connection signal="body_entered" from="." to="." method="on_player_entered"]

@@ -1,5 +1,5 @@
 use godot::{
-    classes::{Area2D, IArea2D, Timer},
+    classes::{AnimationPlayer, Area2D, IArea2D, Timer},
     prelude::*,
 };
 use rand::{thread_rng, Rng};
@@ -13,7 +13,8 @@ pub struct FirstBoss {
     speed: f32,
     #[var]
     num_torrets: i32,
-
+    #[var]
+    is_dead: bool,
     base: Base<Area2D>,
 }
 
@@ -23,15 +24,15 @@ impl IArea2D for FirstBoss {
         FirstBoss {
             speed: 0.,
             num_torrets: 4,
-
+            is_dead: false,
             base,
         }
     }
 
     fn process(&mut self, delta: f64) {
         self.movimentation(delta);
-        if self.num_torrets <= 0 {
-            self.activate_central();
+        if self.is_dead {
+            self.death();
         }
     }
 }
@@ -67,8 +68,24 @@ impl FirstBoss {
         self.base_mut().set_position(pos);
     }
 
+    #[signal]
+    pub fn im_dead();
+
     #[func]
-    fn activate_central(&mut self) {}
+    fn death(&mut self) {
+        let mut anim = self
+            .base()
+            .get_node_as::<AnimationPlayer>("AnimationPlayer");
+
+        anim.set_current_animation("death");
+        anim.play();
+
+        self.base_mut().emit_signal("im_dead", &[]);
+    }
+    #[func]
+    fn free(&mut self) {
+        self.base_mut().queue_free();
+    }
 }
 
 // --- TORRETS ---
@@ -188,6 +205,10 @@ impl IArea2D for CentralTorret {
     }
     fn process(&mut self, _delta: f64) {
         if self.get_boss().bind().get_num_torrets() <= 0 {
+            self.base_mut()
+                .set_deferred("monitoring", &true.to_variant());
+            self.base_mut()
+                .set_deferred("monitorable", &true.to_variant());
             self.is_active = true;
         }
         if self.is_active && self.firerate.is_stopped() {
@@ -233,5 +254,20 @@ impl CentralTorret {
     fn time_out(&mut self) {
         self.shoot();
         self.firerate.start();
+    }
+
+    #[func]
+    fn hit(&mut self, _area: Gd<Area2D>) {
+        self.health -= 1.;
+
+        if self.health <= 0. {
+            self.free();
+            self.get_boss().bind_mut().set_is_dead(true);
+        }
+    }
+
+    #[func]
+    fn free(&mut self) {
+        self.base_mut().queue_free();
     }
 }

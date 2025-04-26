@@ -11,6 +11,8 @@ use crate::player::Player;
 struct FollowPathEnemy {
     #[export]
     speed: f32,
+    #[export]
+    explosion_sound: Gd<AudioStreamPlayer>,
     point: i8,
     is_dead: bool,
     base: Base<PathFollow2D>,
@@ -23,6 +25,7 @@ impl IPathFollow2D for FollowPathEnemy {
             speed: 0.,
             point: 2,
             is_dead: false,
+            explosion_sound: AudioStreamPlayer::new_alloc(),
             base,
         }
     }
@@ -64,11 +67,15 @@ impl FollowPathEnemy {
             .unwrap()
             .get_parent()
             .unwrap()
+            .get_parent()
+            .unwrap()
             .get_node_as::<Player>("Player");
 
         let player_points = player.bind().get_points();
 
         let final_points = player_points + self.point as i16;
+
+        self.explosion_sound.play();
 
         player.bind_mut().set_points(final_points);
     }

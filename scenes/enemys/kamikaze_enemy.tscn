@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://cphevpc2ojwtc"]
+[gd_scene load_steps=17 format=3 uid="uid://cphevpc2ojwtc"]
 
 [ext_resource type="Texture2D" uid="uid://cqejntsm64foy" path="res://assets/Enemys/Enemy_2.png" id="1_c448k"]
 [ext_resource type="Texture2D" uid="uid://cyt758a5epuly" path="res://assets/explosion.png" id="2_77315"]
+[ext_resource type="AudioStream" uid="uid://c7huxhgd6j5mv" path="res://assets/Audio/Fx/Explosion2.wav" id="3_omdbi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vi7el"]
 atlas = ExtResource("1_c448k")
@@ -99,10 +100,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1lnra"]
 size = Vector2(12, 13.5)
 
-[node name="KamikazeEnemy" type="KamikazeEnemy" node_paths=PackedStringArray("followtimer")]
+[node name="KamikazeEnemy" type="KamikazeEnemy" node_paths=PackedStringArray("followtimer", "explosion_sound")]
 speed = 100.0
 followtimer = NodePath("followtimer")
+explosion_sound = NodePath("explosion_sound")
 position = Vector2(0, 10)
+collision_layer = 2
+collision_mask = 5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fjmhp")
@@ -114,4 +118,12 @@ shape = SubResource("RectangleShape2D_1lnra")
 [node name="followtimer" type="Timer" parent="."]
 autostart = true
 
+[node name="explosion_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_omdbi")
+volume_db = -10.0
+pitch_scale = 0.71
+
+[connection signal="area_entered" from="." to="." method="hit"]
+[connection signal="body_entered" from="." to="." method="on_player_entered"]
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="on_sprite_2d_animation_finished"]
 [connection signal="timeout" from="followtimer" to="." method="timer_out"]

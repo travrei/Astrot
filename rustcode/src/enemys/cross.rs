@@ -17,6 +17,8 @@ pub struct CrossEnemy {
     frequencia: f32,
     #[export]
     point: i16,
+    #[export]
+    explosion_sound: Gd<AudioStreamPlayer>,
     time: f32,
     is_dead: bool,
     base: Base<Area2D>,
@@ -31,6 +33,7 @@ impl IArea2D for CrossEnemy {
             point: 0,
             time: 0.,
             is_dead: false,
+            explosion_sound: AudioStreamPlayer::new_alloc(),
             base,
         }
     }
@@ -54,6 +57,8 @@ impl CrossEnemy {
     fn on_player_entered(&mut self, _body: Gd<Player>) {
         let mut player = self
             .base()
+            .get_parent()
+            .unwrap()
             .get_parent()
             .unwrap()
             .get_parent()
@@ -82,12 +87,14 @@ impl CrossEnemy {
             .unwrap()
             .get_parent()
             .unwrap()
+            .get_parent()
+            .unwrap()
             .get_node_as::<Player>("Player");
 
         let player_points = player.bind().get_points();
 
         let final_points = player_points + self.point as i16;
-
+        self.explosion_sound.play();
         player.bind_mut().set_points(final_points);
     }
 
